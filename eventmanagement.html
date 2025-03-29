@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventX</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        height: 100%;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+
+      .page {
+        display: none;
+        height: 100%;
+      }
+
+      .active {
+        display: block;
+      }
+
+      /* Login & Register Page */
+      .auth-container {
+        background: radial-gradient(
+          circle at 1.8% 4.8%,
+          rgb(17, 23, 58) 0%,
+          rgb(58, 85, 148) 90%
+        );
+        position: relative;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        overflow: hidden;
+      }
+
+      .auth-container h1 {
+        color: white;
+        margin-bottom: 10px;
+        font-size: 40px;
+      }
+
+      .auth-box {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        text-align: center;
+        width: 320px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .auth-box input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        background: #f1f1f1;
+        font-size: 16px;
+      }
+
+      .auth-box button {
+        width: 100%;
+        padding: 12px;
+        background-color: #3252de;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .auth-box p {
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .auth-box a {
+        color: #3252de;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      /* Event Page */
+      .event-page {
+        display: none;
+        background-color: #f4f4f4;
+      }
+
+      header {
+        background: radial-gradient(
+          circle at 1.8% 4.8%,
+          rgb(17, 23, 58) 0%,
+          rgb(58, 85, 148) 90%
+        );
+        padding: 15px;
+      }
+
+      nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .logo {
+        font-size: 24px;
+        letter-spacing: 1px;
+        color: white;
+      }
+
+      nav .nav-links {
+        list-style: none;
+        display: flex;
+      }
+
+      nav .nav-links li {
+        margin-left: 20px;
+      }
+
+      nav .nav-links li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+      }
+
+      nav .nav-links li a:hover {
+        text-decoration: underline;
+      }
+
+      .hero {
+        background: url("bgimage.avif") no-repeat center center;
+        background-size: cover;
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: center;
+        color: white;
+        padding: 0 20px;
+      }
+
+      .hero-content {
+        max-width: 900px;
+        margin-top: 20px;
+      }
+
+      .hero-content h2 {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      .hero-content p {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+
+      .hero-content .search-form {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .hero-content .search-form input {
+        padding: 12px;
+        max-width: 400px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+      }
+
+      .hero-content .search-form button {
+        padding: 12px 20px;
+        background-color: #f4a261;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .categories,
+      .featured-companies {
+        padding: 50px 20px;
+        text-align: center;
+      }
+
+      .categories h2,
+      .featured-companies h2 {
+        font-size: 32px;
+        margin-bottom: 30px;
+      }
+
+      .category-list,
+      .company-list {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .category-item,
+      .company-item {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 240px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .category-item img,
+      .company-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .category-item:hover,
+      .company-item:hover {
+        transform: scale(1.05);
+      }
+
+      footer {
+        background: radial-gradient(
+          circle at 1.8% 4.8%,
+          rgb(17, 23, 58) 0%,
+          rgb(58, 85, 148) 90%
+        );
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Login/Register Page -->
+    <div class="page active" id="authPage">
+      <div class="auth-container">
+        <h1>EventX</h1>
+        <div class="auth-box" id="loginBox">
+          <h2>Login</h2>
+          <input type="text" placeholder="Username" id="loginUsername" />
+          <input type="password" placeholder="Password" id="loginPassword" />
+          <button onclick="login()">Login</button>
+          <p>
+            Not registered?
+            <a href="#" onclick="showRegister()">Create an account</a>
+          </p>
+        </div>
+
+        <div class="auth-box" id="registerBox" style="display: none">
+          <h2>Register</h2>
+          <input type="text" placeholder="Username" id="regUsername" />
+          <input type="password" placeholder="Password" id="regPassword" />
+          <button onclick="register()">Register</button>
+          <p>
+            Already have an account? <a href="#" onclick="showLogin()">Login</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event Management Page -->
+    <div class="page" id="eventPage">
+      <header>
+        `
+        <nav>
+          <div class="logo">
+            <h1>EventX</h1>
+          </div>
+          <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#companies">Companies</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section class="hero" id="home">
+        <div class="hero-content">
+          <h2>Find Your Perfect Event Planner</h2>
+          <p>
+            Browse through various event management companies to find the
+            perfect match for your special event.
+          </p>
+          <div class="search-form">
+            <input
+              type="text"
+              placeholder="Search for event planners or categories"
+            />
+            <button>Search</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="categories" id="events">
+        <h2>Event Categories</h2>
+        <div class="category-list">
+          <div class="category-item">
+            <img src="wedding.webp" alt="Wedding" />
+            <h3>Wedding Planning</h3>
+          </div>
+          <div class="category-item">
+            <img src="corporate.webp" alt="Corporate" />
+            <h3>Corporate Events</h3>
+          </div>
+          <div class="category-item">
+            <img src="birthday.jpg" alt="Birthday" />
+            <h3>Birthday Parties</h3>
+          </div>
+          <div class="category-item">
+            <img src="christmas.jpg" alt="Festivals" />
+            <h3>Festivals</h3>
+          </div>
+          <div class="category-item">
+            <img src="concert.jpg" alt="Concerts" />
+            <h3>Concerts & Shows</h3>
+          </div>
+        </div>
+      </section>
+
+      <section class="featured-companies" id="companies">
+        <h2>Featured Event Companies</h2>
+        <div class="company-list">
+          <div class="company-item">
+            <img src="shaadisquad.jpg" alt="Shaadi Squad" />
+            <h3>Shaadi Squad</h3>
+          </div>
+          <div class="company-item">
+            <img src="event.jpg" alt="Pro Events" />
+            <h3>Pro Events</h3>
+          </div>
+          <div class="company-item">
+            <img src="engagement-party.jpg" alt="Party Planners" />
+            <h3>Showmakerz</h3>
+          </div>
+          <div class="company-item">
+            <img src="madeinheaven.jpg" alt="Made In Heaven" />
+            <h3>Made In Heaven</h3>
+          </div>
+          <div class="company-item">
+            <img src="images.jpg" alt="Event Masters" />
+            <h3>Engage4more</h3>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>&copy; 2024 EventX. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      function login() {
+        const username = document.getElementById("loginUsername").value;
+        const password = document.getElementById("loginPassword").value;
+        if (username && password) {
+          document.getElementById("authPage").classList.remove("active");
+          document.getElementById("eventPage").classList.add("active");
+          document.body.style.overflow = "auto";
+        } else {
+          alert("Please enter Username & Password");
+        }
+      }
+
+      function register() {
+        const username = document.getElementById("regUsername").value;
+        const password = document.getElementById("regPassword").value;
+        if (username && password) {
+          alert("Registration Successful! Please login.");
+          showLogin();
+        } else {
+          alert("Please fill all fields.");
+        }
+      }
+
+      function showRegister() {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("registerBox").style.display = "block";
+      }
+
+      function showLogin() {
+        document.getElementById("registerBox").style.display = "none";
+        document.getElementById("loginBox").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
